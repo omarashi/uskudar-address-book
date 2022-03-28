@@ -1,0 +1,89 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+@import "~toastr/build/toastr.min.css";
+@import "~boxicons/css/boxicons.min.css";
+
+.profile-pic {
+    @apply w-12 rounded-full mx-auto;
+}
+
+.form-group {
+    @apply flex;
+
+    label {
+        @apply text-gray-700 font-bold inline;
+    }
+
+    .error {
+        @apply text-red-600 mt-1 text-sm;
+    }
+
+    &:not(.group-inline) {
+        @apply flex-col;
+        label {
+            @apply mb-1;
+        }
+    }
+
+    &.group-inline {
+        @apply flex-grow items-center;
+    }
+}
+
+.modal {
+    .group-inline {
+        @apply w-full;
+    }
+}
+
+.form-control {
+    &:not([type="checkbox"]), &:not([type="radio"]) {
+        @apply block w-full rounded-md bg-gray-50 border-gray-200 focus:border-teal-500 focus:bg-white focus:ring-teal-500;
+    }
+
+    &[type="checkbox"], &[type="radio"] {
+        @apply w-5 h-5 rounded bg-white border-gray-500;
+        &:checked {
+            @apply bg-teal-500;
+        }
+    }
+
+    &[type="radio"] {
+        @apply rounded-xl;
+    }
+}
+
+input:checked ~ {
+    .dot {
+        transform: translateX(100%);
+    }
+    .slide {
+        @apply bg-teal-600;
+    }
+}
+
+.time-table {
+    thead {
+        tr {
+            th {
+                @apply p-4 bg-teal-200;
+                &:first-child {
+                    @apply rounded-tl-xl;
+                }
+                &:last-child {
+                    @apply rounded-tr-xl;
+                }
+            }
+        }
+    }
+    tbody {
+        tr {
+            @apply bg-gray-200;
+            td {
+                @apply p-4 border-2 border-white align-top;
+            }
+        }
+    }
+}
