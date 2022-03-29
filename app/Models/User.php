@@ -46,6 +46,11 @@ class User extends Authenticatable
         return $this->belongsTo(Role::class, 'role_id');
     }
 
+    public function department(): BelongsTo
+    {
+        return $this->belongsTo(Department::class, 'department_id');
+    }
+
     public function timeTable(): HasMany
     {
         return $this->hasMany(TimeTable::class, 'lecturer_id');

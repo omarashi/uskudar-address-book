@@ -8,7 +8,7 @@
     }
 @endphp
 
-<div {{ $attributes->except('x-model')->merge(['class' => 'form-group']) }}>
+<div {{ $attributes->except(['x-model', 'disabled', 'readonly'])->merge(['class' => 'form-group']) }}>
     @if(!$placeholder)
         <label for="{{ $name }}">{{ $label }}</label>
     @endif
@@ -22,7 +22,9 @@
                    @if($placeholder) placeholder="{{ $label }}" @endif
                    @if($value) value="{{ $value }}" @endif autofocus
                    @if($attributes->has('x-model')) x-model="{{ $attributes['x-model'] }}"
-                   @endif  wire:model.defer="{{ $name }}">
+                   @endif  wire:model.defer="{{ $name }}" @if($attributes->has('disabled')) disabled="{{ $attributes['disabled'] }}"
+                   @endif @if($attributes->has('readonly')) readonly="{{ $attributes['readonly'] }}"
+                   @endif>
         @endif
 
         @if($validate)

@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Users;
 
+use App\Models\Department;
 use App\Models\Role;
 use App\Models\User;
 use Carbon\Carbon;
@@ -24,7 +25,7 @@ class Datatable extends LivewireDatatable
     {
         return User::whereHas('role', function ($query) {
             return $query->where('slug', $this->role);
-        })->where('id', '<>', auth()->id());
+        })->where('users.id', '<>', auth()->id())->leftJoin('departments', 'departments.id', 'users.department_id');
     }
 
     public function columns()
@@ -50,6 +51,11 @@ class Datatable extends LivewireDatatable
                 ->label('name')
                 ->searchable()
                 ->filterable(),
+
+            Column::name('department.name')
+                ->label('Department')
+                ->searchable()
+                ->filterable(Department::pluck('name')),
 
             Column::name('ref_no')
                 ->label('Reference No.')

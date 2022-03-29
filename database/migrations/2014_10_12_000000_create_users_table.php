@@ -25,6 +25,7 @@ class CreateUsersTable extends Migration
             $table->time('office_hours_end')->nullable();
             $table->string('password');
             $table->foreignId('role_id')->index();
+            $table->foreignId('department_id')->nullable()->index();
             $table->string('position')->nullable();
             $table->string('avatar')->nullable();
             $table->tinyInteger('active')->default(1);

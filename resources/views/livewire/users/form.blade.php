@@ -94,29 +94,50 @@
                         x-text="password == password_confirmation && password.length > 0 ? 'Passwords match' : 'Passwords do not match' "></span>
                 </div>
 
-                <x-forms.select class="mt-3" name="role_id" label="{{ __('Role') }}"
-                                validate="true" x-model="role_id" :options="$this->getRolesDropdown()"></x-forms.select>
-                <x-forms.input class="mt-3" name="position" type="text"
-                               label="{{ __('Position') }}"
-                               validate="true"></x-forms.input>
             </div>
             <div class="grid grid-cols-3 gap-4">
-                <x-forms.input class="mt-3" name="office_no" type="text"
-                               label="{{ __('Office No.') }}"
-                               validate="true"></x-forms.input>
+                @if(in_array(auth()->user()->role->slug, [ \App\Models\Role::ADMIN, \App\Models\Role::HR ]))
+                    <x-forms.select class="mt-3" name="role_id" label="{{ __('Role') }}"
+                                    validate="true" x-model="role_id"
+                                    :options="$this->getRolesDropdown()"></x-forms.select>
+                    <x-forms.select class="mt-3" name="department_id" label="{{ __('Department') }}"
+                                    validate="true"
+                                    :options="\App\Models\Department::pluck('name', 'id')"></x-forms.select>
+                    <x-forms.input class="mt-3" name="position" type="text"
+                                   label="{{ __('Position') }}"
+                                   validate="true"></x-forms.input>
+                @else
+                    <x-forms.select class="mt-3" name="role_id" label="{{ __('Role') }}"
+                                    validate="true" x-model="role_id"
+                                    :options="\App\Models\Role::where('slug', auth()->user()->role->slug)->pluck('name','id')"
+                                    disabled="true"></x-forms.select>
+                    <x-forms.select class="mt-3" name="department_id" label="{{ __('Department') }}"
+                                    validate="true"
+                                    :options="\App\Models\Department::pluck('name', 'id')"
+                                    disabled="true"></x-forms.select>
+                    <x-forms.input class="mt-3" name="position" type="text"
+                                   label="{{ __('Position') }}"
+                                   validate="true" disabled="true"></x-forms.input>
+                @endif
+                @if(auth()->user()->role->slug != \App\Models\Role::STUDENT)
+                    <x-forms.input class="mt-3" name="office_no" type="text"
+                                   label="{{ __('Office No.') }}"
+                                   validate="true"></x-forms.input>
 
-                <x-forms.input class="mt-3" name="office_hours_start" type="time"
-                               label="{{ __('Office Hours From') }}"
-                               validate="true"></x-forms.input>
-                <x-forms.input class="mt-3" name="office_hours_end" type="time"
-                               label="{{ __('Office Hours To') }}"
-                               validate="true"></x-forms.input>
+                    <x-forms.input class="mt-3" name="office_hours_start" type="time"
+                                   label="{{ __('Office Hours From') }}"
+                                   validate="true"></x-forms.input>
+                    <x-forms.input class="mt-3" name="office_hours_end" type="time"
+                                   label="{{ __('Office Hours To') }}"
+                                   validate="true"></x-forms.input>
+                @endif
             </div>
 
 
             <div
                 x-show="role_id == '{{ \App\Models\Role::where('slug', \App\Models\Role::LECTURER)->first()->id }}'">
-                <div class="flex mt-10 sticky top-0 bg-white py-3 border-b-2 @if(request()->route('process') == 'create') hidden @endif ">
+                <div
+                    class="flex mt-10 sticky top-0 bg-white py-3 border-b-2 @if(request()->route('process') == 'create') hidden @endif ">
                     <h2 class="font-semibold text-2xl mr-auto">Time Table</h2>
                 </div>
                 @if($timetables)

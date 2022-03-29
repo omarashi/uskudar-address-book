@@ -29,6 +29,7 @@ class Form extends Component
         'office_hours_start',
         'office_hours_end',
         'role_id',
+        'department_id',
         'position',
         'active',
     ];
@@ -92,6 +93,11 @@ class Form extends Component
                 'required',
                 'integer',
                 Rule::exists('roles', 'id'),
+            ],
+            'props.department_id' => [
+                'nullable',
+                'integer',
+                Rule::exists('departments', 'id'),
             ],
             'props.position' => [
                 'nullable',
@@ -320,7 +326,7 @@ class Form extends Component
         if ($role == Role::ADMIN) {
             return Role::pluck('name', 'id');
         } elseif ($role == Role::HR) {
-            return Role::whereIn('slug', [Role::LECTURER, Role::STUDENT])->pluck('name', 'id');
+            return Role::whereIn('slug', [Role::LECTURER, Role::STUDENT, Role::HR])->pluck('name', 'id');
         } elseif ($role == Role::LECTURER) {
             return Role::where('slug', Role::STUDENT)->pluck('name', 'id');
         } else {

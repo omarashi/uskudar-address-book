@@ -67,7 +67,7 @@
                 <tr>
                     @foreach(\App\Models\TimeTable::$days as $day => $name)
                     <td>
-                        @foreach($user->timeTable()->where('day', $day)->get() as $lesson)
+                        @foreach($user->timeTable()->where('day', $day)->orderBy('time_start')->get() as $lesson)
                             <div class="bg-white rounded shadow p-3 mt-3">
                                 <p><i class="bx bx-book align-middle mr-1"></i> {{ $lesson->course->name }}</p>
                                 <p><i class="bx bxs-door-open align-middle mr-1"></i> {{ $lesson->class_no }}</p>

@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Department;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
@@ -20,6 +21,7 @@ class UserFactory extends Factory
             'f_name' => $this->faker->firstName(),
             'l_name' => $this->faker->lastName(),
             'ref_no' => 'LEC-' . Carbon::make($this->faker->unique()->dateTime)->timestamp,
+            'department_id' => $this->faker->randomElement(Department::pluck('id')->toArray()),
             'email' => $this->faker->unique()->safeEmail(),
             'phone' => $this->faker->unique()->phoneNumber,
             'office_no' => $this->faker->randomElement(['A', 'B', 'C', 'D']) . '-' . $this->faker->unique()->numberBetween('206', '309'),
